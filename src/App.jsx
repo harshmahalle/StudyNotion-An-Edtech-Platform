@@ -41,12 +41,16 @@ function App() {
   const { user } = useSelector((state) => state.profile)
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      const token = JSON.parse(localStorage.getItem("token"))
-      dispatch(getUserDetails(token, navigate))
+    const token = localStorage.getItem("token"); // Directly retrieve the token as a string
+    if (token) {
+      try {
+        dispatch(getUserDetails(token, navigate)); // Use the token directly
+      } catch (error) {
+        console.error("Error processing token:", error);
+        localStorage.removeItem("token"); // Clear the invalid token if needed
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [dispatch, navigate]);
 
   return (
     <div className="flex min-h-screen w-screen flex-col bg-richblack-900 font-inter">

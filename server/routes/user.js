@@ -28,8 +28,11 @@ router.post("/login", login)
 // Route for user signup
 router.post("/signup", signup)
 
-// Route for sending OTP to the user's email
-router.post("/sendotp", sendotp)
+router.post("/sendotp", (req, res, next) => {
+  console.log("Incoming request:", req.body);
+  next();
+});
+
 
 // Route for Changing the password
 router.post("/changepassword", auth, changePassword)
